@@ -20,7 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#shuffle").addEventListener("click", shuffle);
     document.querySelector("#bubble").addEventListener("click", bubbleSort);
     document.querySelector("#insertion").addEventListener("click", insertionSort);
-    document.querySelector("#merge").addEventListener("click", e => mergeSort(values));
+    document.querySelector("#merge").addEventListener("click", e => mergeSort(values, 0, true));
 });
 
 function renderBars(n){
@@ -95,29 +95,43 @@ function insertionSort() {
     requestAnimationFrame(animate);
 }
 
-function mergeSort(array){
+function mergeSort(array, start, top){
     if(array.length <= 1) return array;
     let split = Math.floor(array.length/2);
-    let left = mergeSort(array.slice(0, split));
-    let right = mergeSort(array.slice(split));
-    let result = merge(left, right);
+    let left = mergeSort(array.slice(0, split), start, false);
+    let right = mergeSort(array.slice(split), start+split, false);
+    let result = merge(left, right, start, split);
     console.log(result);
+    if(top) requestAnimationFrame(animate)
     return result;
 
 }
 
-function merge(array1, array2){
+function merge(array1, array2, array1start, array2start){
+    let red = [];
+    for(let a=0; a<array1.length;a++){
+        red.push(array1start+a);
+    }
+    for(let a=0; a<array2.length;a++){
+        red.push(array2start+a);
+    }
+    frames.push(["red", ...red]);
     let pointer1=0;
     let pointer2=0;
+    let destitnation = array1start
     const result = [];
     while(result.length < array1.length+array2.length){
+        if(pointer1 < array1.length) frames.push(["yellow", pointer1+array1start]);
+        if(pointer2 < array2.length) frames.push(["yellow", pointer2+array2start])
         let val1 = pointer1 >= array1.length ? Infinity : array1[pointer1];
         let val2 = pointer2 >= array2.length ? Infinity : array2[pointer2];
         if(val1 < val2){
             result.push(val1);
+            frames.push(["green", pointer1+array1start]);
             pointer1++;
         } else {
             result.push(val2);
+            frames.push(["green", pointer2+array2start]);
             pointer2++;
         }
     }
