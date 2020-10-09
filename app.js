@@ -53,17 +53,20 @@ function bubbleSort(){
     for(let upperLimit=values.length-1; upperLimit >= 0; upperLimit--){
         let sorted = true;
         for(let i=0;i<upperLimit;i++){
+            frames.push(["yellow", i, i+1])
             if(values[i] > values[i+1]){
                 [values[i], values[i+1]] = [values[i+1], values[i]];
                 frames.push(["swap", i, i+1]);
                 sorted = false
             }
+            frames.push(["red", i, i+1])
         }
         frames.push(["green", upperLimit])
         if(sorted) break;
     }
     console.log(values);
     frames.push(["allGreen"]);
+    lockInputs();
     requestAnimationFrame(animate);
 }
 function animate(){
@@ -75,11 +78,28 @@ function animate(){
             [divs[a], divs[b]] = [divs[b], divs[a]];
             break;
         case "green":
-            divs[frame[1]].style.backgroundColor="green";
+            frame.slice(1).forEach(i => divs[i].style.backgroundColor = "green");
             break;
         case "allGreen":
             divs.forEach(div => div.style.backgroundColor = "green");
             break;
+        case "yellow":
+            frame.slice(1).forEach(i => divs[i].style.backgroundColor = "yellow");
+            break;
+        case "red":
+            frame.slice(1).forEach(i => divs[i].style.backgroundColor = "red");
+            break;
     }
     if(frames.length > 0) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
+    else unlockInputs();
+}
+
+function lockInputs() {
+    document.querySelectorAll("button").forEach(b => b.disabled=true);
+    document.querySelector("#range").disabled=true;
+
+}
+function unlockInputs(){
+    document.querySelectorAll("button").forEach(b => b.disabled=false);
+    document.querySelector("#range").disabled=false;
 }
