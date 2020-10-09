@@ -20,6 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#shuffle").addEventListener("click", shuffle);
     document.querySelector("#bubble").addEventListener("click", bubbleSort);
     document.querySelector("#insertion").addEventListener("click", insertionSort);
+    document.querySelector("#merge").addEventListener("click", e => mergeSort(values));
 });
 
 function renderBars(n){
@@ -92,6 +93,35 @@ function insertionSort() {
     }
     lockInputs();
     requestAnimationFrame(animate);
+}
+
+function mergeSort(array){
+    if(array.length <= 1) return array;
+    let split = Math.floor(array.length/2);
+    let left = mergeSort(array.slice(0, split));
+    let right = mergeSort(array.slice(split));
+    let result = merge(left, right);
+    console.log(result);
+    return result;
+
+}
+
+function merge(array1, array2){
+    let pointer1=0;
+    let pointer2=0;
+    const result = [];
+    while(result.length < array1.length+array2.length){
+        let val1 = pointer1 >= array1.length ? Infinity : array1[pointer1];
+        let val2 = pointer2 >= array2.length ? Infinity : array2[pointer2];
+        if(val1 < val2){
+            result.push(val1);
+            pointer1++;
+        } else {
+            result.push(val2);
+            pointer2++;
+        }
+    }
+    return result;
 }
 function animate(){
     let frame = frames.shift();
