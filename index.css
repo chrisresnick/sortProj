@@ -1,0 +1,35 @@
+.app {
+    display: inline-block;
+    outline: 1px solid black;
+    background-color: whitesmoke;
+    text-align: center;
+}
+
+h1 {
+    margin: 0 5px;
+}
+.squareHolder{
+    width: 500px;
+    height: 500px;
+    background-color: skyblue;
+    position: relative
+}
+
+.bar {
+    width: 10px;
+    position: absolute;
+}
+
+.wraper {
+    display: flex;
+    justify-content: center;
+}
+.ui {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.buttons button{
+    margin: 5px 2px;
+}
