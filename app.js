@@ -2,7 +2,10 @@ let values;
 let divs;
 let animationSpeed;
 const frames = [];
+const hole = document.createElement("div");
+hole.classList.add("hole");
 window.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".squareHolder").appendChild(hole);
     values = [0, 1, 2, 3, 4, 5, 6, 7, 8 ,9];
     divs = renderBars(values.length);
     animationSpeed = 100
@@ -16,6 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#speed").addEventListener("input", e => animationSpeed = e.target.value);
     document.querySelector("#shuffle").addEventListener("click", shuffle);
     document.querySelector("#bubble").addEventListener("click", bubbleSort);
+    document.querySelector("#insertion").addEventListener("click", insertionSort);
 });
 
 function renderBars(n){
@@ -52,6 +56,7 @@ function shuffle() {
 function bubbleSort(){
     for(let upperLimit=values.length-1; upperLimit >= 0; upperLimit--){
         let sorted = true;
+        //frames.push("allRed");
         for(let i=0;i<upperLimit;i++){
             frames.push(["yellow", i, i+1])
             if(values[i] > values[i+1]){
@@ -69,6 +74,25 @@ function bubbleSort(){
     lockInputs();
     requestAnimationFrame(animate);
 }
+
+function insertionSort() {
+    for(let insert = 1; insert<values.length;insert++){
+        for(let i=insert; i>0;i--){
+            frames.push(["yellow", i, i-1]);
+            if(values[i-1] > values[i]){
+                frames.push(["swap", i, i-1]);
+                [values[i-1], values[i]] = [values[i], values[i-1]];
+                frames.push(["green", i, i-1]);
+            }
+            else{
+                frames.push(["green", i, i-1]);
+                break;
+            }
+        }
+    }
+    lockInputs();
+    requestAnimationFrame(animate);
+}
 function animate(){
     let frame = frames.shift();
     switch(frame[0]) {
@@ -82,6 +106,9 @@ function animate(){
             break;
         case "allGreen":
             divs.forEach(div => div.style.backgroundColor = "green");
+            break;
+        case "allRed":
+            divs.forEach(div => div.style.backgroundColor = "red");
             break;
         case "yellow":
             frame.slice(1).forEach(i => divs[i].style.backgroundColor = "yellow");

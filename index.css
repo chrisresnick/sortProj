@@ -15,6 +15,13 @@ h1 {
     position: relative
 }
 
+.hole {
+  width: 10px;
+  background-color: skyblue;
+  position: absolute;
+  height: 5px;
+}
+
 .bar {
     width: 10px;
     position: absolute;
