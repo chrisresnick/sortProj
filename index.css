@@ -1,18 +1,45 @@
+
+div{
+    box-sizing: border-box;
+}
 .app {
     display: inline-block;
     outline: 1px solid black;
     background-color: whitesmoke;
     text-align: center;
 }
+.info {
+    height: 500px;
+    width: 250px;
+    outline: 1px solid black;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#sortInfo {
+    height: 100%;
+}
+
+.main {
+    display: flex;
+}
 
 h1 {
     margin: 0 5px;
+}
+h2 {
+    margin: 5px;
 }
 .squareHolder{
     width: 500px;
     height: 500px;
     background-color: skyblue;
-    position: relative
+    position: relative;
+    margin: 5px;
+}
+.hidden {
+    display: none;
 }
 
 .hole {
@@ -25,6 +52,8 @@ h1 {
 .bar {
     width: 10px;
     position: absolute;
+    border-radius: 5px 5px 0px 0px;
+    overflow: hidden;
 }
 
 .wraper {
@@ -35,8 +64,9 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
-.buttons button{
+button{
     margin: 5px 2px;
 }

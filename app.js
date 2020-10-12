@@ -6,7 +6,11 @@ const hole = document.createElement("div");
 hole.classList.add("hole");
 window.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".squareHolder").appendChild(hole);
-    values = [0, 1, 2, 3, 4, 5, 6, 7, 8 ,9];
+    let numBars = document.querySelector("#range").value
+    values = [];
+    for(let i=0; i<numBars;i++){
+        values.push(i);
+    }
     divs = renderBars(values.length);
     animationSpeed = 100
     document.querySelector("#range").addEventListener("input", e => {
