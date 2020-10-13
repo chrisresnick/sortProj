@@ -104,9 +104,14 @@ function mergeSort(array, start, top){
     let split = Math.floor(array.length/2);
     let left = mergeSort(array.slice(0, split), start, false);
     let right = mergeSort(array.slice(split), start+split, false);
-    let result = merge(left, right, start, split);
+    let result = merge(left, right, start, start+split);
     console.log(result);
-    if(top) requestAnimationFrame(animate)
+    if(top) {
+        //frames.push(["allGreen"]);
+        values = result;
+        lockInputs();
+        requestAnimationFrame(animate);
+    }
     return result;
 
 }
@@ -122,8 +127,8 @@ function merge(array1, array2, array1start, array2start){
     frames.push(["red", ...red]);
     let pointer1=0;
     let pointer2=0;
-    let destitnation = array1start
     const result = [];
+    let offset = 0;
     while(result.length < array1.length+array2.length){
         if(pointer1 < array1.length) frames.push(["yellow", pointer1+array1start]);
         if(pointer2 < array2.length) frames.push(["yellow", pointer2+array2start])
@@ -135,12 +140,45 @@ function merge(array1, array2, array1start, array2start){
             pointer1++;
         } else {
             result.push(val2);
+            frames.push(["msShift", array1start, array2start, pointer1, pointer2, offset, array1, array2]);
+            offset++;
             frames.push(["green", pointer2+array2start]);
             pointer2++;
         }
     }
+    frames.push(["green", ...red]);
     return result;
 }
+function msShift(frame){
+    let [_, a1start, a2start, ptr1, ptr2, offset, a1, a2] = frame;
+    let pos2 = a2start+ptr2;
+    let pos1 = a1start+ptr1+offset;
+    let newDivs = divs.map((div, index) => {
+        if(index < pos1) return div;
+        if(index === pos1) return cloneDiv(pos2, divs[pos1].style.left , 1);
+        if(index <= pos2) return cloneDiv(index-1, divs[index].style.left, 2);
+        return div;
+    });
+    newDivs[pos1].style.backgroundColor = "green";
+    //console.log(newDivs);
+    divs=newDivs;
+    const sh = document.querySelector(".squareHolder");
+    document.querySelectorAll(".squareHolder div").forEach(div => sh.removeChild(div));
+    divs.forEach(div => sh.appendChild(div));
+}
+
+function cloneDiv(num, left=null, code) {
+    //console.log(num, code);
+    let div = document.createElement("div");
+    let oldDiv = divs[num];
+    div.style.left = left === null ? oldDiv.style.left : left;
+    div.style.top = oldDiv.style.top;
+    div.style.backgroundColor = oldDiv.style.backgroundColor;
+    div.style.height = oldDiv.style.height;
+    div.className = oldDiv.className;
+    return div;
+}
+
 function animate(){
     let frame = frames.shift();
     switch(frame[0]) {
@@ -163,6 +201,9 @@ function animate(){
             break;
         case "red":
             frame.slice(1).forEach(i => divs[i].style.backgroundColor = "red");
+            break;
+        case "msShift":
+            msShift(frame);
             break;
     }
     if(frames.length > 0) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
