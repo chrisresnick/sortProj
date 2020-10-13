@@ -96,6 +96,38 @@ function insertionSort() {
     lockInputs();
     requestAnimationFrame(animate);
 }
+function quickSort(arr, start, top){
+    if(arr.length <= 1) return arr;
+    const pivot = Math.floor(Math.random()*arr.length);
+    frames.push(["yellow", pivot]);
+    const pivotVal = arr[pivot];
+    let lesser = [];
+    let greater = [];
+    let lesserIndexes = [];
+    let greaterIndexes = [];
+    arr.forEach((val, index) => {
+        if(index===pivot) return;
+        frames.push(["yellow", index]);
+        frames.push(["red", index]);
+        if(val < pivotVal) {
+            lesser.push(val);
+            lesserIndexes.push(index+start);
+        }
+        else {
+            greater.push(val);
+            greaterIndexes.push(index+start);
+        }
+    });
+    frames.push("quicksort", lesserIndexes, pivot+start, greaterIndexes);
+    lesser = quickSort(lesser, start);
+    greater  = quickSort(greater, start+pivot)
+    if(top){
+        lockInputs();
+        vals = [...lesser, pivotVal, ...greater];
+        requestAnimationFrame(animate);
+    }
+    return [...lesser, pivotVal, ...greater];
+}
 
 function mergeSort(array, start, top){
     if(array.length <= 1) return array;
