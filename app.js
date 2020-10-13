@@ -124,8 +124,10 @@ function merge(array1, array2, array1start, array2start){
     const result = [];
     let offset = 0;
     while(result.length < array1.length+array2.length){
-        if(pointer1 < array1.length) frames.push(["yellow", pointer1+array1start+offset]);
-        if(pointer2 < array2.length) frames.push(["yellow", pointer2+array2start])
+        const f = ["yellow"]
+        if(pointer1 < array1.length) f.push(pointer1+array1start+offset);
+        if(pointer2 < array2.length) f.push(pointer2+array2start);
+        frames.push(f);
         let val1 = pointer1 >= array1.length ? Infinity : array1[pointer1];
         let val2 = pointer2 >= array2.length ? Infinity : array2[pointer2];
         if(val1 < val2){
@@ -147,7 +149,7 @@ function msShift(frame){
     divs = divs.map((div, index) => {
         if(index < pos1) return div;
         if(index === pos1) return cloneDiv(pos2, divs[pos1].style.left , 1);
-        if(index <= pos2) return cloneDiv(index-1, divs[index].style.left, 2);
+        if(index <= pos2) return cloneDiv(index-1, divs[index].style.left);
         return div;
     });
     divs[pos1].style.backgroundColor = "green";
@@ -156,7 +158,7 @@ function msShift(frame){
     divs.forEach(div => sh.appendChild(div));
 }
 
-function cloneDiv(num, left=null, code) {
+function cloneDiv(num, left=null) {
     //console.log(num, code);
     let div = document.createElement("div");
     let oldDiv = divs[num];
