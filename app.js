@@ -1,18 +1,16 @@
-let values;
+let values = [];
 let divs;
-let animationSpeed;
+let animationSpeed = 100;
 const frames = [];
 const hole = document.createElement("div");
 hole.classList.add("hole");
 window.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".squareHolder").appendChild(hole);
     let numBars = document.querySelector("#range").value
-    values = [];
     for(let i=0; i<numBars;i++){
         values.push(i);
     }
     divs = renderBars(values.length);
-    animationSpeed = 100
     document.querySelector("#range").addEventListener("input", e => {
         values = [];
         for(let i=0; i<e.target.value;i++){
@@ -107,7 +105,6 @@ function mergeSort(array, start, top){
     let result = merge(left, right, start, start+split);
     console.log(result);
     if(top) {
-        //frames.push(["allGreen"]);
         values = result;
         lockInputs();
         requestAnimationFrame(animate);
@@ -121,9 +118,6 @@ function merge(array1, array2, array1start, array2start){
     for(let a=0; a<array1.length+array2.length;a++){
         red.push(array1start+a);
     }
-    // for(let a=0; a<array2.length;a++){
-    //     red.push(array2start+a);
-    // }
     frames.push(["red", ...red]);
     let pointer1=0;
     let pointer2=0;
