@@ -100,7 +100,10 @@ function insertionSort() {
     requestAnimationFrame(animate);
 }
 function quickSort(arr, start, top){
-    if(arr.length <= 1) return arr;
+    if(arr.length <= 1) {
+        frames.push(["green", start]);
+        return arr;
+    }
     const indexes = [];
     for(let i=0; i<arr.length;i++) indexes.push(i+start);
     const pivot = Math.floor(Math.random()*arr.length);
