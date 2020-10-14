@@ -32,7 +32,7 @@ h2 {
     margin: 5px;
 }
 .squareHolder{
-    width: 500px;
+    width: 605px;
     height: 500px;
     background-color: skyblue;
     position: relative;
@@ -53,6 +53,7 @@ h2 {
     width: 10px;
     position: absolute;
     border-radius: 5px 5px 0px 0px;
+    box-shadow: 2px 0px 1px rgba(0, 0, 255, 0.4);
     overflow: hidden;
 }
 
