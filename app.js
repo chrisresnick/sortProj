@@ -23,6 +23,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#bubble").addEventListener("click", bubbleSort);
     document.querySelector("#insertion").addEventListener("click", insertionSort);
     document.querySelector("#merge").addEventListener("click", e => mergeSort(values, 0, true));
+    document.querySelector("#quick").addEventListener("click", e => quickSort(values, 0, true));
 });
 
 function renderBars(n){
@@ -118,15 +119,46 @@ function quickSort(arr, start, top){
             greaterIndexes.push(index+start);
         }
     });
-    frames.push("quicksort", lesserIndexes, pivot+start, greaterIndexes);
-    lesser = quickSort(lesser, start);
-    greater  = quickSort(greater, start+pivot)
+    frames.push(["quicksort", start, lesserIndexes, pivot+start, greaterIndexes]);
+    lesser = quickSort(lesser, start, false);
+    greater  = quickSort(greater, start+lesser.length+1, false)
     if(top){
         lockInputs();
         vals = [...lesser, pivotVal, ...greater];
         requestAnimationFrame(animate);
     }
     return [...lesser, pivotVal, ...greater];
+}
+
+function qsAnimate(frame){
+    //debugger;
+    let [_, start, lesserIndexes, pivotIndex, greaterIndexes] = frame;
+    const lenOfNew = lesserIndexes.length + greaterIndexes.length + 1;
+    let lesserPointer = 0;
+    let greaterPointer = 0;
+    let pivotIncluded = false;
+    let pIndex;
+    const newDivs = [];
+    divs.forEach((div, index) => {
+        //debugger;
+        if(index < start) newDivs.push(div);
+        else if(index < start+lesserIndexes.length){
+            newDivs.push(cloneDiv(lesserIndexes[lesserPointer++], div.style.left));
+        }
+        else if(!pivotIncluded){
+            debugger;
+            pivotIncluded = true;
+            pIndex = index;
+            newDivs.push(cloneDiv(pivotIndex, div.style.left));
+        }
+        else if(index <  start+lenOfNew) newDivs.push(cloneDiv(greaterIndexes[greaterPointer++], div.style.left));
+        else newDivs.push(div);
+    });
+    const sh = document.querySelector(".squareHolder");
+    document.querySelectorAll(".bar").forEach(bar => sh.removeChild(bar));
+    newDivs[pIndex].style.backgroundColor = "green";
+    newDivs.forEach(div => sh.appendChild(div));
+    divs = newDivs;
 }
 
 function mergeSort(array, start, top){
@@ -191,7 +223,7 @@ function msShift(frame){
 }
 
 function cloneDiv(num, left=null) {
-    //console.log(num, code);
+    console.log(num);
     let div = document.createElement("div");
     let oldDiv = divs[num];
     div.style.left = left === null ? oldDiv.style.left : left;
@@ -227,6 +259,9 @@ function animate(){
             break;
         case "msShift":
             msShift(frame);
+            break;
+        case "quicksort":
+            qsAnimate(frame);
             break;
     }
     if(frames.length > 0) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
