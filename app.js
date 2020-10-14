@@ -101,7 +101,7 @@ function insertionSort() {
 }
 function quickSort(arr, start, top){
     if(arr.length <= 1) {
-        frames.push(["green", start]);
+        if(start < divs.length) frames.push(["green", start]);
         return arr;
     }
     const indexes = [];
@@ -130,7 +130,7 @@ function quickSort(arr, start, top){
     frames.push(["quicksort", start, lesserIndexes, pivot+start, greaterIndexes]);
     lesser = quickSort(lesser, start, false);
     greater  = quickSort(greater, start+lesser.length+1, false)
-    frames.push(["green",...indexes]);
+    frames.push(["green", ...indexes]);
     if(top){
         frames.push(["done"]);
         lockInputs();
@@ -142,7 +142,6 @@ function quickSort(arr, start, top){
 }
 
 function qsAnimate(frame){
-    //debugger;
     let [_, start, lesserIndexes, pivotIndex, greaterIndexes] = frame;
     const lenOfNew = lesserIndexes.length + greaterIndexes.length + 1;
     let lesserPointer = 0;
@@ -151,13 +150,11 @@ function qsAnimate(frame){
     let pIndex;
     const newDivs = [];
     divs.forEach((div, index) => {
-        //debugger;
         if(index < start) newDivs.push(div);
         else if(index < start+lesserIndexes.length){
             newDivs.push(cloneDiv(lesserIndexes[lesserPointer++], div.style.left));
         }
         else if(!pivotIncluded){
-            debugger;
             pivotIncluded = true;
             pIndex = index;
             newDivs.push(cloneDiv(pivotIndex, div.style.left));
@@ -254,6 +251,7 @@ function animate(){
             [divs[a], divs[b]] = [divs[b], divs[a]];
             break;
         case "green":
+            debugger;
             frame.slice(1).forEach(i => divs[i].style.backgroundColor = "green");
             break;
         case "allGreen":
