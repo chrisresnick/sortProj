@@ -11,13 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
         values.push(i);
     }
     divs = renderBars(values.length);
-    document.querySelector("#range").addEventListener("input", e => {
-        values = [];
-        for(let i=0; i<e.target.value;i++){
-            values.push(i);
-        }
-        divs = renderBars(values.length);
-    });
+    document.querySelector("#range").addEventListener("input", e => blank(e.target.value));
     document.querySelector("#speed").addEventListener("input", e => animationSpeed = e.target.value);
     document.querySelector("#shuffle").addEventListener("click", shuffle);
     document.querySelector("#bubble").addEventListener("click", bubbleSort);
@@ -25,6 +19,14 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#merge").addEventListener("click", e => mergeSort(values, 0, true));
     document.querySelector("#quick").addEventListener("click", e => quickSort(values, 0, true));
 });
+
+function blank(n) {
+    values = [];
+    for(let i=0; i<n;i++){
+        values.push(i);
+    }
+    divs = renderBars(values.length);
+}
 
 function renderBars(n){
     const barHolder = document.querySelector(".squareHolder");
@@ -99,8 +101,10 @@ function insertionSort() {
 }
 function quickSort(arr, start, top){
     if(arr.length <= 1) return arr;
+    const indexes = [];
+    for(let i=0; i<arr.length;i++) indexes.push(i+start);
     const pivot = Math.floor(Math.random()*arr.length);
-    frames.push(["yellow", pivot]);
+    frames.push(["yellow", pivot+start]);
     const pivotVal = arr[pivot];
     let lesser = [];
     let greater = [];
@@ -108,8 +112,8 @@ function quickSort(arr, start, top){
     let greaterIndexes = [];
     arr.forEach((val, index) => {
         if(index===pivot) return;
-        frames.push(["yellow", index]);
-        frames.push(["red", index]);
+        frames.push(["yellow", index+start]);
+        frames.push(["red", index+start]);
         if(val < pivotVal) {
             lesser.push(val);
             lesserIndexes.push(index+start);
@@ -119,14 +123,18 @@ function quickSort(arr, start, top){
             greaterIndexes.push(index+start);
         }
     });
+    frames.push(["red", ...indexes]);
     frames.push(["quicksort", start, lesserIndexes, pivot+start, greaterIndexes]);
     lesser = quickSort(lesser, start, false);
     greater  = quickSort(greater, start+lesser.length+1, false)
+    frames.push(["green",...indexes]);
     if(top){
+        frames.push(["done"]);
         lockInputs();
         vals = [...lesser, pivotVal, ...greater];
         requestAnimationFrame(animate);
     }
+
     return [...lesser, pivotVal, ...greater];
 }
 
@@ -262,6 +270,9 @@ function animate(){
             break;
         case "quicksort":
             qsAnimate(frame);
+            break;
+        case "done":
+            blank(divs.length);
             break;
     }
     if(frames.length > 0) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
