@@ -1,7 +1,9 @@
+import Frames from './frames.js';
 let values = [];
 let divs;
 let animationSpeed = 100;
-const frames = [];
+//const frames = [];
+const frames = new Frames();
 const hole = document.createElement("div");
 hole.classList.add("hole");
 window.addEventListener("DOMContentLoaded", () => {
@@ -48,7 +50,7 @@ function renderBars(n){
 
 function shuffle() {
     const shuffleRate = values.length * 3
-    for(i=0; i<shuffleRate;i++){
+    for(let i=0; i<shuffleRate;i++){
         let random = Math.floor(values.length*Math.random());
        // console.log(random, divs[random])
         let index = i%values.length;
@@ -134,7 +136,7 @@ function quickSort(arr, start, top){
     if(top){
         frames.push(["done"]);
         lockInputs();
-        vals = [...lesser, pivotVal, ...greater];
+        //vals = [...lesser, pivotVal, ...greater];
         requestAnimationFrame(animate);
     }
 
@@ -175,7 +177,7 @@ function mergeSort(array, start, top){
     let left = mergeSort(array.slice(0, split), start, false);
     let right = mergeSort(array.slice(split), start+split, false);
     let result = merge(left, right, start, start+split);
-    console.log(result);
+    //console.log(result);
     if(top) {
         values = result;
         lockInputs();
@@ -231,7 +233,7 @@ function msShift(frame){
 }
 
 function cloneDiv(num, left=null) {
-    console.log(num);
+    //console.log(num);
     let div = document.createElement("div");
     let oldDiv = divs[num];
     div.style.left = left === null ? oldDiv.style.left : left;
@@ -251,7 +253,6 @@ function animate(){
             [divs[a], divs[b]] = [divs[b], divs[a]];
             break;
         case "green":
-            debugger;
             frame.slice(1).forEach(i => divs[i].style.backgroundColor = "green");
             break;
         case "allGreen":
