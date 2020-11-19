@@ -37,16 +37,14 @@ class Frames {
             temp = this.head.data;
             this.head = null;
             this.tail = null;
-            this.length = 0;
         } else if(this.length == 2) {
             temp = this.head.data;
             this.head = this.tail;
-            this.length = 1;
         } else {
             temp = this.head.data;
             this.head = this.head.next;
-            this.length--;
         }
+        this.length--;
         return temp;
     }
 }

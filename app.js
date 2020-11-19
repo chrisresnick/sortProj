@@ -1,4 +1,7 @@
+"use strict"
+
 import Frames from './frames.js';
+import getText from './text.js'
 let values = [];
 let divs;
 let animationSpeed = 100;
@@ -8,6 +11,7 @@ const hole = document.createElement("div");
 hole.classList.add("hole");
 window.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".squareHolder").appendChild(hole);
+    document.querySelector(".info").innerHTML = getText("instructions");
     let numBars = document.querySelector("#range").value
     for(let i=0; i<numBars;i++){
         values.push(i);
@@ -77,7 +81,7 @@ function bubbleSort(){
         frames.push(["green", upperLimit])
         if(sorted) break;
     }
-    console.log(values);
+    //console.log(values);
     frames.push(["allGreen"]);
     lockInputs();
     requestAnimationFrame(animate);
@@ -277,15 +281,18 @@ function animate(){
             blank(divs.length);
             break;
     }
-    if(frames.length > 0) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
-    else unlockInputs();
+    if(frames.length === 0) return unlockInputs();
+    if(animationSpeed < 100) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
+    else return requestAnimationFrame(animate);
+    //if(frames.length > 0) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
+    //else unlockInputs();
 }
 
 function lockInputs() {
     document.querySelectorAll("button").forEach(b => b.disabled=true);
     document.querySelector("#range").disabled=true;
-
 }
+
 function unlockInputs(){
     document.querySelectorAll("button").forEach(b => b.disabled=false);
     document.querySelector("#range").disabled=false;

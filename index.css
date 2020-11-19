@@ -15,8 +15,13 @@ div{
     margin: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
+
+.bodyText {
+    text-align: left;
+}
+
 #sortInfo {
     height: 100%;
 }
@@ -30,6 +35,10 @@ h1 {
 }
 h2 {
     margin: 5px;
+}
+
+p {
+    margin: 5px 10px;
 }
 .squareHolder{
     width: 605px;
