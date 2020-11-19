@@ -83,8 +83,7 @@ function bubbleSort(){
     }
     //console.log(values);
     frames.push(["allGreen"]);
-    lockInputs();
-    requestAnimationFrame(animate);
+    startAnimation("bubbleSort");
 }
 
 function insertionSort() {
@@ -102,8 +101,7 @@ function insertionSort() {
             }
         }
     }
-    lockInputs();
-    requestAnimationFrame(animate);
+    startAnimation("insertionSort");
 }
 function quickSort(arr, start, top){
     if(arr.length <= 1) {
@@ -139,9 +137,7 @@ function quickSort(arr, start, top){
     frames.push(["green", ...indexes]);
     if(top){
         frames.push(["done"]);
-        lockInputs();
-        //vals = [...lesser, pivotVal, ...greater];
-        requestAnimationFrame(animate);
+        startAnimation("quickSort");
     }
 
     return [...lesser, pivotVal, ...greater];
@@ -184,8 +180,7 @@ function mergeSort(array, start, top){
     //console.log(result);
     if(top) {
         values = result;
-        lockInputs();
-        requestAnimationFrame(animate);
+        startAnimation("mergeSort");
     }
     return result;
 
@@ -288,12 +283,15 @@ function animate(){
     //else unlockInputs();
 }
 
-function lockInputs() {
+function startAnimation(sortName) {
     document.querySelectorAll("button").forEach(b => b.disabled=true);
     document.querySelector("#range").disabled=true;
+    document.querySelector(".info").innerHTML = getText(sortName);
+    requestAnimationFrame(animate);
 }
 
 function unlockInputs(){
+    document.querySelector(".info").innerHTML = getText("instructions");
     document.querySelectorAll("button").forEach(b => b.disabled=false);
     document.querySelector("#range").disabled=false;
 }
