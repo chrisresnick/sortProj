@@ -60,7 +60,7 @@ export default function getText(name) {
     }
     if(data.dds){
         innerHTML += "<dl>";
-        innerHTML += data.dds.map(dd => `<dt>${dd[0]}</dt><dd>${dd[1]}</dd>`);
+        innerHTML += data.dds.map(dd => `<dt>${dd[0]}</dt><dd>${dd[1]}</dd>`).join("");
         innerHTML += "</dl>";
     }
     if(data.info){
