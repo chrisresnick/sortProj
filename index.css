@@ -4,14 +4,14 @@ div{
 }
 .app {
     display: inline-block;
-    outline: 1px solid black;
+    outline: 1px solid rgba(0,0,0,.25);
     background-color: whitesmoke;
     text-align: center;
 }
 .info {
     height: 500px;
     width: 250px;
-    outline: 1px solid black;
+    outline: 1px solid rgba(0,0,0,.25);
     margin: 5px;
     display: flex;
     flex-direction: column;
@@ -36,9 +36,12 @@ h1 {
 h2 {
     margin: 5px;
 }
+dt {
+    font-weight: bold;
+}
 
-p {
-    margin: 5px 10px;
+dd {
+    margin-bottom: 5px;
 }
 .squareHolder{
     width: 605px;
