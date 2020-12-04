@@ -53,7 +53,7 @@ const text = {
             "Profit"
         ],
         info : [
-            'You can use the "Animation Speed" slider to speed up or slow down the animation.',
+            'You can use the "Animation Speed" slider to speed up or slow down the animation. Slow it down to see more detail.',
             'You can change the number of bars on the dispay with the "Number of Bars" slider.'
         ]
     }
