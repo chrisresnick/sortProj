@@ -66,6 +66,7 @@ function shuffle() {
 }
 
 function bubbleSort(){
+    frames.push(["allRed"]);
     for(let upperLimit=values.length-1; upperLimit >= 0; upperLimit--){
         let sorted = true;
         //frames.push("allRed");
@@ -87,6 +88,7 @@ function bubbleSort(){
 }
 
 function insertionSort() {
+    frames.push(["allRed"]);
     for(let insert = 1; insert<values.length;insert++){
         for(let i=insert; i>0;i--){
             frames.push(["yellow", i, i-1]);
@@ -137,6 +139,7 @@ function quickSort(arr, start, top){
     frames.push(["green", ...indexes]);
     if(top){
         frames.push(["done"]);
+        frames.unshift(["allRead"]);
         startAnimation("quickSort");
     }
 
@@ -180,6 +183,7 @@ function mergeSort(array, start, top){
     //console.log(result);
     if(top) {
         values = result;
+        frames.unshift(["allRed"])
         startAnimation("mergeSort");
     }
     return result;

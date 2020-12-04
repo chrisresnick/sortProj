@@ -30,6 +30,24 @@ class Frames {
         return this.length;
     }
 
+    unshift(data) {
+        const node = new Frame(data);
+        if(this.length == 0) {
+            this.head = node;
+            this.tail = node;
+        }
+        else if (this.length == 1){
+            this.head = node;
+            this.head.next = this.tail
+        }
+        else {
+            node.next = this.head
+            this.head = node
+        }
+        this.length++;
+        return this.length;
+    }
+
     shift() {
         if (this.length == 0) return null;
         let temp;

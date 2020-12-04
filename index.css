@@ -36,6 +36,9 @@ h1 {
 h2 {
     margin: 5px;
 }
+dl {
+    margin-left: 5px;
+}
 dt {
     font-weight: bold;
 }

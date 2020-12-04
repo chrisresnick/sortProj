@@ -1,3 +1,10 @@
+const colors = [
+                "Red indicates unsorted bars",
+                "Yellow indicates bars that are being compared to each other",
+                "Green indicates bars that are sorted or  provisionally sorted"
+
+               ]
+
 const text = {
 
     bubbleSort : {
@@ -6,6 +13,7 @@ const text = {
             ["Time Complexity:", "O(n<sup>2</sup>)"],
             ["Space Complexity:", "O(1)"]
         ],
+        info: colors
     },
 
     insertionSort : {
@@ -14,6 +22,7 @@ const text = {
             ["Time Complexity:", "O(n<sup>2</sup>)"],
             ["Space Complexity:", "O(1)"]
         ],
+        info: colors
     },
 
     mergeSort : {
@@ -22,6 +31,7 @@ const text = {
             ["Time Complexity:", "O(n log n)"],
             ["Space Complexity:", "O(n)"]
         ],
+        info: colors
     },
 
     quickSort : {
@@ -30,6 +40,7 @@ const text = {
             ["Time Complexity:", "O(n log n)"],
             ["Space Complexity:", "O(n)"]
         ],
+        info: colors
     },
 
     instructions : {
@@ -59,7 +70,7 @@ export default function getText(name) {
         innerHTML += "</ol>";
     }
     if(data.dds){
-        innerHTML += "<dl>";
+        innerHTML += '<dl class="bodyText">';
         innerHTML += data.dds.map(dd => `<dt>${dd[0]}</dt><dd>${dd[1]}</dd>`).join("");
         innerHTML += "</dl>";
     }
