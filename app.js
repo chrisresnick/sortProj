@@ -5,12 +5,8 @@ import getText from './text.js'
 let values = [];
 let divs;
 let animationSpeed = 100;
-//const frames = [];
 const frames = new Frames();
-// const hole = document.createElement("div");
-// hole.classList.add("hole");
 window.addEventListener("DOMContentLoaded", () => {
-    // document.querySelector(".squareHolder").appendChild(hole);
     document.querySelector(".info").innerHTML = getText("instructions");
     let numBars = document.querySelector("#range").value
     for(let i=0; i<numBars;i++){
@@ -58,7 +54,6 @@ function shuffle() {
     const shuffleRate = values.length * 3
     for(let i=0; i<shuffleRate;i++){
         let random = Math.floor(values.length*Math.random());
-       // console.log(random, divs[random])
         let index = i%values.length;
         [values[index], values[random]] = [values[random], values[index]];
         [divs[random].style.left, divs[index].style.left] = [divs[index].style.left, divs[random].style.left];
@@ -71,7 +66,6 @@ function bubbleSort(){
     frames.push(["allRed"]);
     for(let upperLimit=values.length-1; upperLimit >= 0; upperLimit--){
         let sorted = true;
-        //frames.push("allRed");
         for(let i=0;i<upperLimit;i++){
             frames.push(["yellow", i, i+1])
             if(values[i] > values[i+1]){
@@ -215,30 +209,28 @@ function merge(array1, array2, array1start, array2start){
             pointer1++;
         } else {
             result.push(val2);
-            frames.push(["msShift", array1start, array2start, pointer1, pointer2, offset++]);
-            pointer2++;
+            frames.push(["msShift", array1start, array2start, pointer1, pointer2++, offset++]);
         }
     }
     return result;
 }
 function msShift(frame){
     let [_, a1start, a2start, ptr1, ptr2, offset] = frame;
-    let pos2 = a2start+ptr2;
-    let pos1 = a1start+ptr1+offset;
+    let endShift = a2start+ptr2;
+    let startShift = a1start+ptr1+offset;
     divs = divs.map((div, index) => {
-        if(index < pos1) return div;
-        if(index === pos1) return cloneDiv(pos2, divs[pos1].style.left , 1);
-        if(index <= pos2) return cloneDiv(index-1, divs[index].style.left);
+        if(index < startShift) return div;
+        if(index === startShift) return cloneDiv(endShift, divs[startShift].style.left , 1);
+        if(index <= endShift) return cloneDiv(index-1, divs[index].style.left);
         return div;
     });
-    divs[pos1].style.backgroundColor = "green";
+    divs[startShift].style.backgroundColor = "green";
     const sh = document.querySelector(".squareHolder");
     document.querySelectorAll(".squareHolder div").forEach(div => sh.removeChild(div));
     divs.forEach(div => sh.appendChild(div));
 }
 
 function cloneDiv(num, left=null) {
-    //console.log(num);
     let div = document.createElement("div");
     let oldDiv = divs[num];
     div.style.left = left === null ? oldDiv.style.left : left;
@@ -283,10 +275,8 @@ function animate(){
             break;
     }
     if(frames.length === 0) return unlockInputs();
-    if(animationSpeed < 100) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
-    else return requestAnimationFrame(animate);
-    //if(frames.length > 0) setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
-    //else unlockInputs();
+    if(animationSpeed < 100) return setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
+    return requestAnimationFrame(animate);
 }
 
 function startAnimation(sortName) {
