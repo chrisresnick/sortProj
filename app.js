@@ -13,6 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
         values.push(i);
     }
     divs = renderBars(values.length);
+    shuffle();
     document.querySelector("#range").addEventListener("input", e => blank(e.target.value));
     document.querySelector("#speed").addEventListener("input", e => animationSpeed = e.target.value);
     document.querySelector("#shuffle").addEventListener("click", shuffle);
