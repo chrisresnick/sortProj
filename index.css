@@ -32,6 +32,10 @@ button:hover{
     background-color: rgb(75,75,255);
 }
 
+button:disabled {
+    background-color: grey;
+}
+
 .uiHolder {
     display: flex;
     justify-content: space-between;
