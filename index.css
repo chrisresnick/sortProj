@@ -47,9 +47,10 @@ button:hover{
 .linkBtns label {
     font-weight: bold;
     font-size: small;
+    margin: 0px 5px 0px 5px;
 }
 
-#linkedin {
+.linkBtns img {
     margin: 5px;
 }
 
