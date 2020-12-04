@@ -1,6 +1,6 @@
-/* body, .wraper {
+body {
     margin: 0px;
-} */
+}
 div{
     box-sizing: border-box;
 }
@@ -20,6 +20,18 @@ div{
     justify-content: space-between;
     /* justify-content: space-between; */
 }
+
+button {
+    color: white;
+    background-color: rgb(25, 25,255);
+    font-size: medium;
+    border-radius: 10px;
+}
+
+button:hover{
+    background-color: rgb(75,75,255);
+}
+
 
 .linkBtns {
     display: flex;
@@ -90,6 +102,9 @@ dd {
 .wraper {
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
 }
 .ui {
     display: flex;
