@@ -1,4 +1,6 @@
-
+/* body, .wraper {
+    margin: 0px;
+} */
 div{
     box-sizing: border-box;
 }
@@ -8,14 +10,21 @@ div{
     background-color: whitesmoke;
     text-align: center;
 }
-.info {
+.infoHolder {
     height: 500px;
     width: 250px;
     outline: 1px solid rgba(0,0,0,.25);
     margin: 5px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     /* justify-content: space-between; */
+}
+
+.linkBtns {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .bodyText {
@@ -57,11 +66,17 @@ dd {
     display: none;
 }
 
-.hole {
+/* .hole {
   width: 10px;
   background-color: skyblue;
   position: absolute;
   height: 5px;
+} */
+
+.linkImg {
+    width: 100px;
+    cursor: pointer;
+
 }
 
 .bar {

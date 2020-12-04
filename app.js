@@ -7,10 +7,10 @@ let divs;
 let animationSpeed = 100;
 //const frames = [];
 const frames = new Frames();
-const hole = document.createElement("div");
-hole.classList.add("hole");
+// const hole = document.createElement("div");
+// hole.classList.add("hole");
 window.addEventListener("DOMContentLoaded", () => {
-    document.querySelector(".squareHolder").appendChild(hole);
+    // document.querySelector(".squareHolder").appendChild(hole);
     document.querySelector(".info").innerHTML = getText("instructions");
     let numBars = document.querySelector("#range").value
     for(let i=0; i<numBars;i++){
@@ -24,6 +24,8 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#insertion").addEventListener("click", insertionSort);
     document.querySelector("#merge").addEventListener("click", e => mergeSort(values, 0, true));
     document.querySelector("#quick").addEventListener("click", e => quickSort(values, 0, true));
+    document.querySelector("#github").addEventListener("click", e => window.location="https://github.com/chrisresnick/animateSort");
+    document.querySelector("#linkedin").addEventListener("click", e => window.location="https://www.linkedin.com/in/chris-resnick/");
 });
 
 function blank(n) {
@@ -139,7 +141,7 @@ function quickSort(arr, start, top){
     frames.push(["green", ...indexes]);
     if(top){
         frames.push(["done"]);
-        frames.unshift(["allRead"]);
+        frames.unshift(["allRed"]);
         startAnimation("quickSort");
     }
 
