@@ -44,6 +44,11 @@ button:hover{
     align-items: center;
 }
 
+.linkBtns label {
+    font-weight: bold;
+    font-size: small;
+}
+
 #linkedin {
     margin: 5px;
 }
@@ -95,7 +100,7 @@ dd {
 } */
 
 .linkImg {
-    width: 100px;
+    max-width: 100px;
     cursor: pointer;
 
 }
