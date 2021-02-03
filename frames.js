@@ -6,13 +6,15 @@ class Frame {
 }
 
 class Frames {
-    constructor(){
+    constructor(opsCount){
         this.head = null;
         this.tail = null;
         this.length = 0;
+        this.opsCount = opsCount;
     }
 
     push(data) {
+        data.push({ops: this.opsCount.ops(), comps:this.opsCount.comps()});
         const node = new Frame(data);
         if(this.length == 0) {
             this.head = node;
@@ -31,6 +33,7 @@ class Frames {
     }
 
     unshift(data) {
+        data.push({ops: this.opsCount.ops(), comps:this.opsCount.comps()});
         const node = new Frame(data);
         if(this.length == 0) {
             this.head = node;

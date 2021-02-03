@@ -1,13 +1,15 @@
 "use strict"
 
 import Frames from './frames.js';
-import getText from './text.js'
+import getText from './text.js';
 import OpsCount from "./operations.js"
 let values = [];
 let divs;
 let animationSpeed = 100;
-const frames = new Frames();
 const opsCount = new OpsCount();
+const frames = new Frames(opsCount);
+const compsDiv = document.querySelector(".comps");
+const opsDiv = document.querySelector(".ops");
 window.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".info").innerHTML = getText("instructions");
     let numBars = document.querySelector("#range").value
@@ -50,6 +52,8 @@ function renderBars(n){
         divArray.push(newBar);
         barHolder.appendChild(newBar);
     }
+    compsDiv.innerHTML = "";
+    opsDiv.innerHTML = "";
     return divArray;
 }
 
@@ -63,6 +67,8 @@ function shuffle() {
         [divs[random], divs[index]] = [divs[index], divs[random]];
     }
     divs.forEach(bar => bar.style.backgroundColor = "red");
+    opsDiv.innerHTML = "";
+    compsDiv.innerHTML = "";
 }
 
 function bubbleSort(){
@@ -71,20 +77,20 @@ function bubbleSort(){
         let sorted = true;
         for(let i=0;i<upperLimit;i++){
             opsCount.incComps();
-            frames.push(["yellow", i, i+1, {ops: opsCount.ops(), comps:opsCount.comps()}])
+            frames.push(["yellow", i, i+1])
             if(values[i] > values[i+1]){
                 [values[i], values[i+1]] = [values[i+1], values[i]];
                 opsCount.incOps();
-                frames.push(["swap", i, i+1, {ops: opsCount.ops(), comps:opsCount.comps()}]);
+                frames.push(["swap", i, i+1]);
                 sorted = false
             }
-            frames.push(["red", i, i+1, {}])
+            frames.push(["red", i, i+1])
         }
-        frames.push(["green", upperLimit, {}])
+        frames.push(["green", upperLimit])
         if(sorted) break;
     }
     //console.log(values);
-    frames.push(["allGreen", {}]);
+    frames.push(["allGreen"]);
     startAnimation("bubbleSort");
 }
 
@@ -92,8 +98,10 @@ function insertionSort() {
     frames.push(["allRed"]);
     for(let insert = 1; insert<values.length;insert++){
         for(let i=insert; i>0;i--){
+            opsCount.incComps();
             frames.push(["yellow", i, i-1]);
             if(values[i-1] > values[i]){
+                opsCount.incOps();
                 frames.push(["swap", i, i-1]);
                 [values[i-1], values[i]] = [values[i], values[i-1]];
                 frames.push(["green", i, i-1]);
@@ -122,13 +130,16 @@ function quickSort(arr, start, top){
     let greaterIndexes = [];
     arr.forEach((val, index) => {
         if(index===pivot) return;
+        opsCount.incComps();
         frames.push(["yellow", index+start]);
         frames.push(["red", index+start]);
         if(val < pivotVal) {
+            opsCount.incOps();
             lesser.push(val);
             lesserIndexes.push(index+start);
         }
         else {
+            opsCount.incOps();
             greater.push(val);
             greaterIndexes.push(index+start);
         }
@@ -177,8 +188,13 @@ function qsAnimate(frame){
 
 function mergeSort(array, start, top){
     if(array.length <= 1) return array;
+    opsCount.incOps();
     let split = Math.floor(array.length/2);
+    // opsCount.incOps(split);
+    opsCount.incOps();
     let left = mergeSort(array.slice(0, split), start, false);
+    // opsCount.incOps(array.length-split);
+    opsCount.incOps();
     let right = mergeSort(array.slice(split), start+split, false);
     let result = merge(left, right, start, start+split);
     //console.log(result);
@@ -208,6 +224,8 @@ function merge(array1, array2, array1start, array2start){
         frames.push(f);
         let val1 = pointer1 >= array1.length ? Infinity : array1[pointer1];
         let val2 = pointer2 >= array2.length ? Infinity : array2[pointer2];
+        opsCount.incComps();
+        opsCount.incOps();
         if(val1 < val2){
             result.push(val1);
             frames.push(["green", pointer1+array1start+offset]);
@@ -231,7 +249,7 @@ function msShift(frame){
     });
     divs[startShift].style.backgroundColor = "green";
     const sh = document.querySelector(".squareHolder");
-    document.querySelectorAll(".squareHolder div").forEach(div => sh.removeChild(div));
+    document.querySelectorAll(".bar").forEach(div => sh.removeChild(div));
     divs.forEach(div => sh.appendChild(div));
 }
 
@@ -280,8 +298,8 @@ function animate(){
             blank(divs.length);
             break;
     }
-    document.querySelector(".ops").innerHTML=`opperations: ${ops}`;
-    document.querySelector(".comps").innerHTML=`comparisons: ${comps}`
+    opsDiv.innerHTML=`Operations: ${ops}`;
+    compsDiv.innerHTML=`Comparisons: ${comps}`;
     if(frames.length === 0) return unlockInputs();
     if(animationSpeed < 100) return setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
     return requestAnimationFrame(animate);

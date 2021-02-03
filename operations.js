@@ -13,8 +13,9 @@ class OpsCount{
     comps() {
         return this.comparisons;
     }
-    incOps(){
-        this.operations += 1;
+    incOps(num){
+        if(!num) this.operations += 1;
+        else this.operations += num;
     }
     incComps() {
         this.comparisons += 1;
