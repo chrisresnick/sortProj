@@ -2,10 +2,12 @@
 
 import Frames from './frames.js';
 import getText from './text.js'
+import OpsCount from "./operations.js"
 let values = [];
 let divs;
 let animationSpeed = 100;
 const frames = new Frames();
+const opsCount = new OpsCount();
 window.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".info").innerHTML = getText("instructions");
     let numBars = document.querySelector("#range").value
@@ -64,23 +66,25 @@ function shuffle() {
 }
 
 function bubbleSort(){
-    frames.push(["allRed"]);
+    frames.push(["allRed", {}]);
     for(let upperLimit=values.length-1; upperLimit >= 0; upperLimit--){
         let sorted = true;
         for(let i=0;i<upperLimit;i++){
-            frames.push(["yellow", i, i+1])
+            opsCount.incComps();
+            frames.push(["yellow", i, i+1, {ops: opsCount.ops(), comps:opsCount.comps()}])
             if(values[i] > values[i+1]){
                 [values[i], values[i+1]] = [values[i+1], values[i]];
-                frames.push(["swap", i, i+1]);
+                opsCount.incOps();
+                frames.push(["swap", i, i+1, {ops: opsCount.ops(), comps:opsCount.comps()}]);
                 sorted = false
             }
-            frames.push(["red", i, i+1])
+            frames.push(["red", i, i+1, {}])
         }
-        frames.push(["green", upperLimit])
+        frames.push(["green", upperLimit, {}])
         if(sorted) break;
     }
     //console.log(values);
-    frames.push(["allGreen"]);
+    frames.push(["allGreen", {}]);
     startAnimation("bubbleSort");
 }
 
@@ -244,6 +248,7 @@ function cloneDiv(num, left=null) {
 
 function animate(){
     let frame = frames.shift();
+    const {ops, comps} = frame.pop();
     switch(frame[0]) {
         case "swap":
             let [_, a, b] = frame;
@@ -275,6 +280,8 @@ function animate(){
             blank(divs.length);
             break;
     }
+    document.querySelector(".ops").innerHTML=`opperations: ${ops}`;
+    document.querySelector(".comps").innerHTML=`comparisons: ${comps}`
     if(frames.length === 0) return unlockInputs();
     if(animationSpeed < 100) return setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
     return requestAnimationFrame(animate);
@@ -291,4 +298,5 @@ function unlockInputs(){
     document.querySelector(".info").innerHTML = getText("instructions");
     document.querySelectorAll("button").forEach(b => b.disabled=false);
     document.querySelector("#range").disabled=false;
+    opsCount.reset();
 }

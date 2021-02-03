@@ -21,6 +21,12 @@ div{
     /* justify-content: space-between; */
 }
 
+.countHolder {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 button {
     color: white;
     background-color: rgb(25, 25,255);
