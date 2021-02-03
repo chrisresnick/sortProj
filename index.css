@@ -9,6 +9,7 @@ div{
     outline: 1px solid rgba(0,0,0,.25);
     background-color: whitesmoke;
     text-align: center;
+    padding: 5px;
 }
 .infoHolder {
     height: 500px;
@@ -25,6 +26,10 @@ div{
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.countHolder div {
+    margin: 5px;
 }
 
 button {

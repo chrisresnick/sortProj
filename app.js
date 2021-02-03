@@ -8,9 +8,11 @@ let divs;
 let animationSpeed = 100;
 const opsCount = new OpsCount();
 const frames = new Frames(opsCount);
-const compsDiv = document.querySelector(".comps");
-const opsDiv = document.querySelector(".ops");
+let compsDiv;
+let opsDiv;
 window.addEventListener("DOMContentLoaded", () => {
+    compsDiv = document.querySelector(".comps");
+    opsDiv = document.querySelector(".ops");
     document.querySelector(".info").innerHTML = getText("instructions");
     let numBars = document.querySelector("#range").value
     for(let i=0; i<numBars;i++){

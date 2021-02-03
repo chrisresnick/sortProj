@@ -22,7 +22,7 @@ class Frames {
         }
         else if (this.length == 1){
             this.tail = node;
-            this.head.next = this.tail
+            this.head.next = this.tail;
         }
         else {
             this.tail.next = node;
@@ -41,11 +41,11 @@ class Frames {
         }
         else if (this.length == 1){
             this.head = node;
-            this.head.next = this.tail
+            this.head.next = this.tail;
         }
         else {
-            node.next = this.head
-            this.head = node
+            node.next = this.head;
+            this.head = node;
         }
         this.length++;
         return this.length;
