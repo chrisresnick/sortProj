@@ -15,7 +15,7 @@ window.addEventListener("DOMContentLoaded", () => {
     opsDiv = document.querySelector(".ops");
     document.querySelector(".info").innerHTML = getText("instructions");
     let numBars = document.querySelector("#range").value
-    for(let i=0; i<numBars;i++){
+    for (let i = 0; i < numBars; i++) {
         values.push(i);
     }
     divs = renderBars(values.length);
@@ -27,27 +27,27 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#insertion").addEventListener("click", insertionSort);
     document.querySelector("#merge").addEventListener("click", e => mergeSort(values, 0, true));
     document.querySelector("#quick").addEventListener("click", e => quickSort(values, 0, true));
-    document.querySelector("#github").addEventListener("click", e => window.location="https://github.com/chrisresnick/animateSort");
-    document.querySelector("#linkedin").addEventListener("click", e => window.location="https://www.linkedin.com/in/chris-resnick/");
+    document.querySelector("#github").addEventListener("click", e => window.location = "https://github.com/chrisresnick/animateSort");
+    document.querySelector("#linkedin").addEventListener("click", e => window.location = "https://www.linkedin.com/in/chris-resnick/");
 });
 
 function blank(n) {
     values = [];
-    for(let i=0; i<n;i++){
+    for (let i = 0; i < n; i++) {
         values.push(i);
     }
     divs = renderBars(values.length);
 }
 
-function renderBars(n){
+function renderBars(n) {
     const barHolder = document.querySelector(".squareHolder");
     document.querySelectorAll(".bar").forEach(bar => barHolder.removeChild(bar));
     const divArray = [];
-    for(let i=0; i < n; i++){
-        let height = (25+i*10);
+    for (let i = 0; i < n; i++) {
+        let height = (25 + i * 10);
         let newBar = document.createElement("div");
-        newBar.style.left = (5+i*15)+"px";
-        newBar.style.top = (500-height)+"px";
+        newBar.style.left = (5 + i * 15) + "px";
+        newBar.style.top = (500 - height) + "px";
         newBar.style.height = height + "px";
         newBar.style.backgroundColor = "green";
         newBar.classList.add("bar");
@@ -61,9 +61,9 @@ function renderBars(n){
 
 function shuffle() {
     const shuffleRate = values.length * 3
-    for(let i=0; i<shuffleRate;i++){
-        let random = Math.floor(values.length*Math.random());
-        let index = i%values.length;
+    for (let i = 0; i < shuffleRate; i++) {
+        let random = Math.floor(values.length * Math.random());
+        let index = i % values.length;
         [values[index], values[random]] = [values[random], values[index]];
         [divs[random].style.left, divs[index].style.left] = [divs[index].style.left, divs[random].style.left];
         [divs[random], divs[index]] = [divs[index], divs[random]];
@@ -73,23 +73,23 @@ function shuffle() {
     compsDiv.innerHTML = "";
 }
 
-function bubbleSort(){
+function bubbleSort() {
     frames.push(["allRed", {}]);
-    for(let upperLimit=values.length-1; upperLimit >= 0; upperLimit--){
+    for (let upperLimit = values.length - 1; upperLimit >= 0; upperLimit--) {
         let sorted = true;
-        for(let i=0;i<upperLimit;i++){
+        for (let i = 0; i < upperLimit; i++) {
             opsCount.incComps();
-            frames.push(["yellow", i, i+1])
-            if(values[i] > values[i+1]){
-                [values[i], values[i+1]] = [values[i+1], values[i]];
+            frames.push(["yellow", i, i + 1])
+            if (values[i] > values[i + 1]) {
+                [values[i], values[i + 1]] = [values[i + 1], values[i]];
                 opsCount.incOps();
-                frames.push(["swap", i, i+1]);
+                frames.push(["swap", i, i + 1]);
                 sorted = false
             }
-            frames.push(["red", i, i+1])
+            frames.push(["red", i, i + 1])
         }
         frames.push(["green", upperLimit])
-        if(sorted) break;
+        if (sorted) break;
     }
     //console.log(values);
     frames.push(["allGreen"]);
@@ -98,60 +98,60 @@ function bubbleSort(){
 
 function insertionSort() {
     frames.push(["allRed"]);
-    for(let insert = 1; insert<values.length;insert++){
-        for(let i=insert; i>0;i--){
+    for (let insert = 1; insert < values.length; insert++) {
+        for (let i = insert; i > 0; i--) {
             opsCount.incComps();
-            frames.push(["yellow", i, i-1]);
-            if(values[i-1] > values[i]){
+            frames.push(["yellow", i, i - 1]);
+            if (values[i - 1] > values[i]) {
                 opsCount.incOps();
-                frames.push(["swap", i, i-1]);
-                [values[i-1], values[i]] = [values[i], values[i-1]];
-                frames.push(["green", i, i-1]);
+                frames.push(["swap", i, i - 1]);
+                [values[i - 1], values[i]] = [values[i], values[i - 1]];
+                frames.push(["green", i, i - 1]);
             }
-            else{
-                frames.push(["green", i, i-1]);
+            else {
+                frames.push(["green", i, i - 1]);
                 break;
             }
         }
     }
     startAnimation("insertionSort");
 }
-function quickSort(arr, start, top){
-    if(arr.length <= 1) {
-        if(start < divs.length) frames.push(["green", start]);
+function quickSort(arr, start, top) {
+    if (arr.length <= 1) {
+        if (start < divs.length) frames.push(["green", start]);
         return arr;
     }
     const indexes = [];
-    for(let i=0; i<arr.length;i++) indexes.push(i+start);
-    const pivot = Math.floor(Math.random()*arr.length);
-    frames.push(["yellow", pivot+start]);
+    for (let i = 0; i < arr.length; i++) indexes.push(i + start);
+    const pivot = Math.floor(Math.random() * arr.length);
+    frames.push(["yellow", pivot + start]);
     const pivotVal = arr[pivot];
     let lesser = [];
     let greater = [];
     let lesserIndexes = [];
     let greaterIndexes = [];
     arr.forEach((val, index) => {
-        if(index===pivot) return;
+        if (index === pivot) return;
         opsCount.incComps();
-        frames.push(["yellow", index+start]);
-        frames.push(["red", index+start]);
-        if(val < pivotVal) {
+        frames.push(["yellow", index + start]);
+        frames.push(["red", index + start]);
+        if (val < pivotVal) {
             opsCount.incOps();
             lesser.push(val);
-            lesserIndexes.push(index+start);
+            lesserIndexes.push(index + start);
         }
         else {
             opsCount.incOps();
             greater.push(val);
-            greaterIndexes.push(index+start);
+            greaterIndexes.push(index + start);
         }
     });
     frames.push(["red", ...indexes]);
-    frames.push(["quicksort", start, lesserIndexes, pivot+start, greaterIndexes]);
+    frames.push(["quicksort", start, lesserIndexes, pivot + start, greaterIndexes]);
     lesser = quickSort(lesser, start, false);
-    greater  = quickSort(greater, start+lesser.length+1, false)
+    greater = quickSort(greater, start + lesser.length + 1, false)
     frames.push(["green", ...indexes]);
-    if(top){
+    if (top) {
         frames.push(["done"]);
         frames.unshift(["allRed"]);
         startAnimation("quickSort");
@@ -160,7 +160,7 @@ function quickSort(arr, start, top){
     return [...lesser, pivotVal, ...greater];
 }
 
-function qsAnimate(frame){
+function qsAnimate(frame) {
     let [_, start, lesserIndexes, pivotIndex, greaterIndexes] = frame;
     const lenOfNew = lesserIndexes.length + greaterIndexes.length + 1;
     let lesserPointer = 0;
@@ -169,16 +169,16 @@ function qsAnimate(frame){
     let pIndex;
     const newDivs = [];
     divs.forEach((div, index) => {
-        if(index < start) newDivs.push(div);
-        else if(index < start+lesserIndexes.length){
+        if (index < start) newDivs.push(div);
+        else if (index < start + lesserIndexes.length) {
             newDivs.push(cloneDiv(lesserIndexes[lesserPointer++], div.style.left));
         }
-        else if(!pivotIncluded){
+        else if (!pivotIncluded) {
             pivotIncluded = true;
             pIndex = index;
             newDivs.push(cloneDiv(pivotIndex, div.style.left));
         }
-        else if(index <  start+lenOfNew) newDivs.push(cloneDiv(greaterIndexes[greaterPointer++], div.style.left));
+        else if (index < start + lenOfNew) newDivs.push(cloneDiv(greaterIndexes[greaterPointer++], div.style.left));
         else newDivs.push(div);
     });
     const sh = document.querySelector(".squareHolder");
@@ -188,19 +188,19 @@ function qsAnimate(frame){
     divs = newDivs;
 }
 
-function mergeSort(array, start, top){
-    if(array.length <= 1) return array;
+function mergeSort(array, start, top) {
+    if (array.length <= 1) return array;
     opsCount.incOps();
-    let split = Math.floor(array.length/2);
+    let split = Math.floor(array.length / 2);
     // opsCount.incOps(split);
     opsCount.incOps();
     let left = mergeSort(array.slice(0, split), start, false);
     // opsCount.incOps(array.length-split);
     opsCount.incOps();
-    let right = mergeSort(array.slice(split), start+split, false);
-    let result = merge(left, right, start, start+split);
+    let right = mergeSort(array.slice(split), start + split, false);
+    let result = merge(left, right, start, start + split);
     //console.log(result);
-    if(top) {
+    if (top) {
         values = result;
         frames.unshift(["allRed"])
         startAnimation("mergeSort");
@@ -209,28 +209,28 @@ function mergeSort(array, start, top){
 
 }
 
-function merge(array1, array2, array1start, array2start){
+function merge(array1, array2, array1start, array2start) {
     let red = [];
-    for(let a=0; a<array1.length+array2.length;a++){
-        red.push(array1start+a);
+    for (let a = 0; a < array1.length + array2.length; a++) {
+        red.push(array1start + a);
     }
     frames.push(["red", ...red]);
-    let pointer1=0;
-    let pointer2=0;
+    let pointer1 = 0;
+    let pointer2 = 0;
     const result = [];
     let offset = 0;
-    while(result.length < array1.length+array2.length){
+    while (result.length < array1.length + array2.length) {
         const f = ["yellow"]
-        if(pointer1 < array1.length) f.push(pointer1+array1start+offset);
-        if(pointer2 < array2.length) f.push(pointer2+array2start);
+        if (pointer1 < array1.length) f.push(pointer1 + array1start + offset);
+        if (pointer2 < array2.length) f.push(pointer2 + array2start);
         frames.push(f);
         let val1 = pointer1 >= array1.length ? Infinity : array1[pointer1];
         let val2 = pointer2 >= array2.length ? Infinity : array2[pointer2];
         opsCount.incComps();
         opsCount.incOps();
-        if(val1 < val2){
+        if (val1 < val2) {
             result.push(val1);
-            frames.push(["green", pointer1+array1start+offset]);
+            frames.push(["green", pointer1 + array1start + offset]);
             pointer1++;
         } else {
             result.push(val2);
@@ -239,14 +239,14 @@ function merge(array1, array2, array1start, array2start){
     }
     return result;
 }
-function msShift(frame){
+function msShift(frame) {
     let [_, a1start, a2start, ptr1, ptr2, offset] = frame;
-    let endShift = a2start+ptr2;
-    let startShift = a1start+ptr1+offset;
+    let endShift = a2start + ptr2;
+    let startShift = a1start + ptr1 + offset;
     divs = divs.map((div, index) => {
-        if(index < startShift) return div;
-        if(index === startShift) return cloneDiv(endShift, divs[startShift].style.left , 1);
-        if(index <= endShift) return cloneDiv(index-1, divs[index].style.left);
+        if (index < startShift) return div;
+        if (index === startShift) return cloneDiv(endShift, divs[startShift].style.left, 1);
+        if (index <= endShift) return cloneDiv(index - 1, divs[index].style.left);
         return div;
     });
     divs[startShift].style.backgroundColor = "green";
@@ -255,7 +255,7 @@ function msShift(frame){
     divs.forEach(div => sh.appendChild(div));
 }
 
-function cloneDiv(num, left=null) {
+function cloneDiv(num, left = null) {
     let div = document.createElement("div");
     let oldDiv = divs[num];
     div.style.left = left === null ? oldDiv.style.left : left;
@@ -266,10 +266,10 @@ function cloneDiv(num, left=null) {
     return div;
 }
 
-function animate(){
+function animate() {
     let frame = frames.shift();
-    const {ops, comps} = frame.pop();
-    switch(frame[0]) {
+    const { ops, comps } = frame.pop();
+    switch (frame[0]) {
         case "swap":
             let [_, a, b] = frame;
             [divs[a].style.left, divs[b].style.left] = [divs[b].style.left, divs[a].style.left];
@@ -300,23 +300,23 @@ function animate(){
             blank(divs.length);
             break;
     }
-    opsDiv.innerHTML=`Operations: ${ops}`;
-    compsDiv.innerHTML=`Comparisons: ${comps}`;
-    if(frames.length === 0) return unlockInputs();
-    if(animationSpeed < 100) return setTimeout(requestAnimationFrame, 100-animationSpeed, animate);
+    opsDiv.innerHTML = `Operations: ${ops}`;
+    compsDiv.innerHTML = `Comparisons: ${comps}`;
+    if (frames.length === 0) return unlockInputs();
+    if (animationSpeed < 100) return setTimeout(requestAnimationFrame, 100 - animationSpeed, animate);
     return requestAnimationFrame(animate);
 }
 
 function startAnimation(sortName) {
-    document.querySelectorAll("button").forEach(b => b.disabled=true);
-    document.querySelector("#range").disabled=true;
+    document.querySelectorAll("button").forEach(b => b.disabled = true);
+    document.querySelector("#range").disabled = true;
     document.querySelector(".info").innerHTML = getText(sortName);
     requestAnimationFrame(animate);
 }
 
-function unlockInputs(){
+function unlockInputs() {
     document.querySelector(".info").innerHTML = getText("instructions");
-    document.querySelectorAll("button").forEach(b => b.disabled=false);
-    document.querySelector("#range").disabled=false;
+    document.querySelectorAll("button").forEach(b => b.disabled = false);
+    document.querySelector("#range").disabled = false;
     opsCount.reset();
 }
