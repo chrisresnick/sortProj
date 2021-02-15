@@ -27,6 +27,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#insertion").addEventListener("click", insertionSort);
     document.querySelector("#merge").addEventListener("click", e => mergeSort(values, 0, true));
     document.querySelector("#quick").addEventListener("click", e => quickSort(values, 0, true));
+    document.querySelector("#dumbsort").addEventListener("click", () => dumbsort(0, values.length-1, true))
     document.querySelector("#github").addEventListener("click", e => window.location = "https://github.com/chrisresnick/animateSort");
     document.querySelector("#linkedin").addEventListener("click", e => window.location = "https://www.linkedin.com/in/chris-resnick/");
 });
@@ -94,6 +95,30 @@ function bubbleSort() {
     //console.log(values);
     frames.push(["allGreen"]);
     startAnimation("bubbleSort");
+}
+
+function dumbsort(start, end, top){
+    if(start > end) return;
+    if(start == end) return frames.push(["green", start])
+    const f = ["red"];
+    for(let i = start; i <=end;i++) f.push(i);
+    frames.push(f);
+    let mid = Math.floor((start+end)/2);
+    dumbsort(start, mid, false);
+    dumbsort(mid+1, end, false);
+    frames.push(["yellow", mid, end]);
+    opsCount.incComps();
+    if(values[mid] > values[end]){
+        [values[mid], values[end]] = [values[end], values[mid]];
+        frames.push(['swap', mid, end]);
+        opsCount.incOps();
+    }
+    frames.push(["green", end])
+    dumbsort(start, end-1, false)
+    if(top) {
+        startAnimation("bubbleSort");
+    }
+
 }
 
 function insertionSort() {
