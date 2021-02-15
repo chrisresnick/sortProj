@@ -113,8 +113,8 @@ function dumbsort(start, end, top){
         frames.push(['swap', mid, end]);
         opsCount.incOps();
     }
-    frames.push(["green", end])
-    dumbsort(start, end-1, false)
+    frames.push(["green", end]);
+    dumbsort(start, end-1, false);
     if(top) {
         startAnimation("bubbleSort");
     }
